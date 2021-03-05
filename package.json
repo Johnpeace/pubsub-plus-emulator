@@ -1,0 +1,31 @@
+{
+  "name": "pubsub-plus-emulator",
+  "version": "1.0.0",
+  "description": "Google cloud pub/sub plus emulator for local testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Johnpeace/pubsub-plus-emulator.git"
+  },
+  "keywords": [
+    "pubsub",
+    "emulator",
+    "google cloud pubsub",
+    "google pubsub",
+    "cloud pubsub",
+    "pubsub emulator"
+  ],
+  "author": "Ropo Olatujoye",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Johnpeace/pubsub-plus-emulator/issues"
+  },
+  "homepage": "https://github.com/Johnpeace/pubsub-plus-emulator#readme",
+  "dependencies": {
+    "@google-cloud/pubsub": "^2.10.0",
+    "async-retry": "^1.3.1"
+  }
+}
