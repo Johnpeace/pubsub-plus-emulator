@@ -1,6 +1,6 @@
 {
   "name": "pubsub-plus-emulator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Google cloud pub/sub plus emulator for local testing",
   "main": "index.js",
   "directories": {
