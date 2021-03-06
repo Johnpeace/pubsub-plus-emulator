@@ -1,0 +1,22 @@
+version: '2'
+plugins:
+  eslint:
+    enabled: true
+    extensions:
+      - .json
+    config:
+      ignore_warnings: true
+checks:
+  method-complexity:
+    enabled: false
+  return-statements:
+    enabled: false
+  complex-logic:
+    enabled: false
+  method-lines:
+    enabled: false
+exclude_patterns:
+  - '**/node_modules/'
+  - '.nyc_output'
+  - 'coverage'
+  - '**/test/'
