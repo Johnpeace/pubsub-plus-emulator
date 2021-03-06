@@ -1,0 +1,30 @@
+{
+  "extends": "airbnb-base",
+  "root": true, 
+  "globals": {
+    "Promise": "off"
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": [2, {"devDependencies": ["**/*.js"]}],
+    "no-param-reassign": 0,
+    "camelcase": 0,
+    "no-plusplus": 0,
+    "consistent-return": 0,
+    "mocha/no-exclusive-tests": 2,
+    "prefer-destructuring": 0,
+    "no-unused-vars": 0,
+    "max-len": 0,
+    "no-undef": 0,
+    "comma-dangle":0
+    },
+  "env": {
+  "browser": true,
+  "es6": true,
+  "mocha": true,
+  "node": true
+  },
+  "plugins": [
+    "import",
+    "mocha"
+  ]  
+}
