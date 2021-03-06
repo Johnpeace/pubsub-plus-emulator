@@ -5,25 +5,61 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6d672c56aade869544ff/test_coverage)](https://codeclimate.com/github/Johnpeace/pubsub-plus-emulator/test_coverage)
 
 This is a wrapper for google cloud pub/sub and local testing emulator
-## how to use
-to publish a message
-```
-import { publish } from 'pubsub-plus-emulator';
 
-await publish('topicName', payload);
-```
+## Install
 
-to publish json data
-
-```
-await publish('topic1', payload);
+### npm
+```sh
+$ npm install pubsub-plus-emulator
 ```
 
-to subscribe a service to listen to events
+## Using Google Cloud Pubsub locally with Google Cloud Emulator
+```sh 
+$ docker run -it -p 8085:8085 knarz/pubsub-emulator
 ```
-import { subscribe } from 'pubsub-plus-emulator';
 
-subscribe('topicName', 'subscriptionName', eventHandler);
+## Using Pubsub on staging with google cloud emulator
+* Put the google cloud pubsub service account json file into the root directory of the project
+* rename the service account json file to `staging-service-account.json`
+
+
+## Using Pubsub on staging with google cloud emulator
+* Put the google cloud pubsub service account json file into the root directory of the project
+* rename the service account json file to `production-service-account.json`
+
+
+## Usage
+
+The library is imported in either of the following ways:
+
+```js
+import PubSub from 'pubsub-plus-emulator';
+
+const PubSub = require('pubsub-plus-emulator');
+
+const PubSub = require('pubsub-plus-emulator').default; 
+```
+
+## To publish a message
+```
+import PubSub from 'pubsub-plus-emulator';
+
+const pubsubClient = new PubSub();
+
+await pubsubClient.publish('topicName', {
+  firstName: 'Ropo',
+  lastName: 'Olatujoye',
+  phone: 89098798778
+});
+```
+
+## To subscribe to an event
+```
+import PubSub from 'pubsub-plus-emulator';
+
+const pubsubClient = new PubSub();
+
+await pubsubClient.subscribe('topicName', 'subscriptionName', eventHandler);
 
 function eventHandler(data) {
     console.log(data);
