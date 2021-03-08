@@ -46,11 +46,13 @@ import PubSub from 'pubsub-plus-emulator';
 
 const pubsubClient = new PubSub();
 
-await pubsubClient.publish('topicName', {
+const payload = {
   firstName: 'Ropo',
   lastName: 'Olatujoye',
-  phone: 89098798778
-});
+  twitter: '@iamfiropo'
+}
+
+await pubsubClient.publish('topicName', payload);
 ```
 
 ## To subscribe to an event
@@ -61,8 +63,10 @@ const pubsubClient = new PubSub();
 
 await pubsubClient.subscribe('topicName', 'subscriptionName', eventHandler);
 
-function eventHandler(data) {
+Note: It's important this is an arrow function
+
+const eventHandler = (data) => {
     console.log(data);
-    // message
+    // do anything with the received data
 }
 ```

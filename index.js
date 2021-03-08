@@ -1,3 +1,7 @@
+/*
+eslint class-methods-use-this: ["error", { "exceptMethods": ["listenForPushMessages"] }]
+*/
+
 import { PubSub } from '@google-cloud/pubsub';
 import { join } from 'path';
 
@@ -32,9 +36,10 @@ export default class Pubsub {
         );
     }
   }
+
   async publish(topicName, payload) {
     try {
-      let topic = await this.getTopic(topicName);
+      const topic = await this.getTopic(topicName);
       const dataBuffer = Buffer.from(JSON.stringify(payload));
 
       const messageId = await this.pubSubClient
@@ -47,39 +52,38 @@ export default class Pubsub {
     }
   }
 
-  subscribe(topicName, subscriptionName, func) {
-    try {
-      let subscription = await this.getSubscription(topicName, subscriptionName);
+  async subscribe(topicName, subscriptionName, func) {
+    const subscription = await this.getSubscription(
+      topicName,
+      subscriptionName
+    );
 
-      let messageCount = 0;
-      const messageHandler = (message) => {
-        try {
-          console.log(`Received message ${message.id}:`);
-          func(message.data.toString());
-          console.log(`\tAttributes: ${message.attributes}`);
-          messageCount += 1;
+    let messageCount = 0;
+    const messageHandler = (message) => {
+      try {
+        console.log(`Received message ${message.id}:`);
+        func(message.data.toString());
+        console.log(`\tAttributes: ${message.attributes}`);
+        messageCount += 1;
 
-          message.ack();
-        } catch (error) {
-          throw new Error(`${error.message} message id ${message.id}`);
-        }
-      };
+        message.ack();
+      } catch (error) {
+        return error.message;
+      }
+    };
 
-      subscription.on('message', messageHandler);
+    subscription.on('message', messageHandler);
 
-      setTimeout(() => {
-        subscription.removeListener('message', messageHandler);
-        console.log(`${messageCount} message(s) received.`);
-      }, 60 * 1000);
-    } catch (error) {
-      return error.message;
-    }
+    setTimeout(() => {
+      subscription.removeListener('message', messageHandler);
+      console.log(`${messageCount} message(s) received.`);
+    }, 60 * 1000);
   }
 
   listenForPushMessages(payload) {
     try {
       const message = Buffer.from(payload, 'base64').toString('utf-8');
-      let parsedMessage = JSON.parse(message);
+      const parsedMessage = JSON.parse(message);
       console.log(parsedMessage);
       return parsedMessage;
     } catch (error) {
@@ -136,8 +140,12 @@ export default class Pubsub {
       const [topics] = await this.pubSubClient.getTopics();
       const existingTopic = topics.some((topic) => topic.name === topicName);
 
-      if (!existingTopic) return (topic = await this.createTopic(topicName));
-      else return existingTopic;
+      if (!existingTopic) {
+        const topic = await this.createTopic(topicName);
+        return topic;
+      }
+
+      return existingTopic;
     } catch (error) {
       return error.message;
     }
@@ -146,16 +154,21 @@ export default class Pubsub {
   async getSubscription(topicName, subscriptionName) {
     try {
       const [subscriptions] = await this.pubSubClient.getSubscriptions();
+
       const existingSubscription = subscriptions.some(
         (subscription) => subscription.name === subscriptionName
       );
 
-      if (!existingSubscription)
-        return (subscription = await this.createSubscription(
+      if (!existingSubscription) {
+        const subscription = await this.createSubscription(
           topicName,
           subscriptionName
-        ));
-      else return existingSubscription;
+        );
+
+        return subscription;
+      }
+
+      return existingSubscription;
     } catch (error) {
       return error.message;
     }
