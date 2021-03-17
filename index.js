@@ -2,8 +2,10 @@
 eslint class-methods-use-this: ["error", { "exceptMethods": ["listenForPushMessages"] }]
 */
 
-import { PubSub } from '@google-cloud/pubsub';
 import { join } from 'path';
+import pkg from '@google-cloud/pubsub';
+
+const { PubSub } = pkg;
 
 export default class Pubsub {
   constructor() {

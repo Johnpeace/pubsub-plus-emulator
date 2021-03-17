@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "Google cloud pub/sub plus emulator for local testing",
   "main": "index.js",
+  "type": "module",
   "directories": {
     "test": "test"
   },
