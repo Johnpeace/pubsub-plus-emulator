@@ -34,25 +34,26 @@ The library is imported in either of the following ways:
 
 ```js
 import PubSub from 'pubsub-plus-emulator';
-
-const PubSub = require('pubsub-plus-emulator');
-
-const PubSub = require('pubsub-plus-emulator').default; 
 ```
 
 ## To publish a message
 ```
-import PubSub from 'pubsub-plus-emulator';
+import PubSub from "pubsub-plus-emulator";
 
-const pubsubClient = new PubSub();
+process.env.NODE_ENV = "development";
+
+export const publisher = async (payload) => {
+  const pubsubClient = new PubSub();
+  await pubsubClient.publish("topicName", payload);
+};
+
+publisher(payload)
 
 const payload = {
-  firstName: 'Ropo',
-  lastName: 'Olatujoye',
-  twitter: '@iamfiropo'
-}
-
-await pubsubClient.publish('topicName', payload);
+  firstName: "Ropo",
+  lastName: "Olatujoye",
+  twitter: "@iamfiropo",
+};
 ```
 
 ## To subscribe to an event
@@ -61,12 +62,12 @@ import PubSub from 'pubsub-plus-emulator';
 
 const pubsubClient = new PubSub();
 
-await pubsubClient.subscribe('topicName', 'subscriptionName', eventHandler);
+pubsubClient.subscribe('topicName', 'subscriptionName', subscriberFunc);
 
 Note: It's important this is an arrow function
 
-const eventHandler = (data) => {
+const subscriberFunc = (data) => {
     console.log(data);
-    // do anything with the received data
+    // do anything with the received event
 }
 ```
